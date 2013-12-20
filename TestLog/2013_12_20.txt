@@ -51,3 +51,21 @@ iTimeend:33
 
 endtime = 25381.000000
 Simulation End !
+
+华硕K40IN 静态 chuan4000
+Begin computing. 0.000000
+starttime = 13026.000000
+before
+CUDA initialized.
+CUDA is OK=1
+GPUnum = 1
+NendoB=2656 NendoC=2957
+before BSPitmm-begin=4.617000,
+Num of CPU: 2
+mTime:3999 iTimebegin:1  iTimeend:1333
+dipolep = 2009575 sumdiploep = 4019150
+iTimeend:1333
+*(itask[1]+0):1333
+
+endtime = 3795963.000000
+Simulation End !
