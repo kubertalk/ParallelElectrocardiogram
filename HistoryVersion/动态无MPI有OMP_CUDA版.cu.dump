@@ -53,7 +53,7 @@ short int   nbbSTEP;
 
 short int *mapSpeed[NK];
 
-short int *mapXCTm[NCYCL];  // store the exciting time ±£´æĞË·ÜÊ±¼ä
+short int *mapXCTm[NCYCL];  // store the exciting time ä¿å­˜å…´å¥‹æ—¶é—´
 int NendoB, NendoC;
 short int endoBx[NENDO*ND3];
 short int endoBy[NENDO*ND3];
@@ -62,8 +62,8 @@ short int endoCx[NENDO*ND3];
 short int endoCy[NENDO*ND3];
 short int endoCz[NENDO*ND3];
 
-// epicardial variable ĞÄÍâÄ¤±äÁ¿
-const short int Nepic=NI*NJ*2;//short int Nepic ĞÄÍâÄ¤¼ÆËã¸öÊı
+// epicardial variable å¿ƒå¤–è†œå˜é‡
+const short int Nepic=NI*NJ*2;//short int Nepic å¿ƒå¤–è†œè®¡ç®—ä¸ªæ•°
 vector<short int> epicX;  // x
 vector<short int> epicY;  // y
 vector<short int> epicZ;  // z
@@ -81,7 +81,7 @@ char answer;
 long mNub;
 long *locXCT[NK];
 long totalCell;
-// anisotropy variables ¸÷¸ö·½ÏòµÄ±äÁ¿
+// anisotropy variables å„ä¸ªæ–¹å‘çš„å˜é‡
 short int maxlay;
 float *fibdir[3];
 float vl2[10], vt2[10], rrat1;
@@ -97,8 +97,8 @@ short int  excited=0;
 CString dataPath="E:\\chuan50\\";
 
 const short int useGPU=1,gpuspeed=17;//by sf 090403 useCPU 1--yes 0--no gpuspeed 1 or 17
-short int GPUnum=1,corenum=0;//by sf 090823 the number of GPU device,allnum°´GPUnum,corenum´ÎĞò´æ 
-// Ïß³ÌÊıÁ¿
+short int GPUnum=1,corenum=0;//by sf 090823 the number of GPU device,allnumæŒ‰GPUnum,corenumæ¬¡åºå­˜ 
+// çº¿ç¨‹æ•°é‡
 short int threadnum=4;//by sf 090403 threadnum<0 auto >0 set number of thread=threadnum
 short int iTimebegin=1,iTimeend;
 
@@ -3550,11 +3550,11 @@ void wtXCTm(short int icc,short int i00,short int j00,short int k00)
 }
 
 
-// Body surface potential calculation Ìå±íµçÊÆ¼ÆËã
+// Body surface potential calculation ä½“è¡¨ç”µåŠ¿è®¡ç®—
 void BSPcalm(void) {
 	void BSPitmm(short int, short int **, float *, float *, float *, float *, float **, float **,short int, float *, float *);
 	
-	// ĞÄÍâÄ¤µçÊÆ¶ÓÁĞ
+	// å¿ƒå¤–è†œç”µåŠ¿é˜Ÿåˆ—
 	vector<float> epicPOT[TSTEP]; 
 
 	short int nVCG,BSPm,mTime,iTime,i,j;
@@ -3563,7 +3563,7 @@ void BSPcalm(void) {
 	float eff;
 	float *endoHnnA;
 
-	// ĞÄÄÚÄ¤µçÊÆ¶ÓÁĞ
+	// å¿ƒå†…è†œç”µåŠ¿é˜Ÿåˆ—
 	float *endoPOT[TSTEP];//*endoPOT_reduce[TSTEP];//*endoPOT_reduce[TSTEP] by sf 090622 
 	HFILE hFp;      
 	short int index;
@@ -3571,11 +3571,11 @@ void BSPcalm(void) {
 	float pi=3.1415926;
 	short int *tnd[3];
 
-	// cpu¸öÊı Ä¬ÈÏÎª¼ÆËã»úCPUÄÚºËÊı
+	// cpuä¸ªæ•° é»˜è®¤ä¸ºè®¡ç®—æœºCPUå†…æ ¸æ•°
 	//int cpunum = omp_get_num_threads();
 	int cpunum = omp_get_num_procs();
 	//int cpunum = 4;
-	// ÉèÖÃÊ¹ÓÃµÄCPUÊı
+	// è®¾ç½®ä½¿ç”¨çš„CPUæ•°
 	omp_set_num_threads(cpunum);
 
 	for(i=0;i<TSTEP;i++) {
@@ -3602,7 +3602,7 @@ void BSPcalm(void) {
 
 	for(ni=0;ni<2*NENDO*ND3;ni++) *(endoHnnA+ni)=(float)0;
 
-	// malloc epicardial potential array ·ÖÅäĞÄÍâÄ¤µçÎ»¶ÓÁĞ
+	// malloc epicardial potential array åˆ†é…å¿ƒå¤–è†œç”µä½é˜Ÿåˆ—
 	//ASSERT(Nepic != 0);
 	if(Nepic == 0){
 		fprintf(stdout, "Nepic == 0");
@@ -3636,7 +3636,7 @@ void BSPcalm(void) {
 		}
 	}
 
-	// matrix data of endo-body surface ĞÄÄÚÄ¤-Ìå±íµçÊÆ¾ØÕó
+	// matrix data of endo-body surface å¿ƒå†…è†œ-ä½“è¡¨ç”µåŠ¿çŸ©é˜µ
 	for(i=0;i<3;i++) {
 		tnd[i] = (short int *) malloc((NL-2)*2*2);
 		if(tnd[i]==NULL) {
@@ -3645,7 +3645,7 @@ void BSPcalm(void) {
 		}
 	}    
 
-	// ³õÊ¼»¯tnd
+	// åˆå§‹åŒ–tnd
 	hFp=_lopen(dataPath+"tour.tnd ",OF_READ);
 	if (hFp==HFILE_ERROR) {
 		fprintf(stdout,"Can not open tnd file ! !\n");
@@ -3726,7 +3726,7 @@ void BSPcalm(void) {
 	}
 
 	for(nn=0;nn<NendoB;nn++) {
-		// measurement location ¼ÆËãÎ»ÖÃ
+		// measurement location è®¡ç®—ä½ç½®
 		ax=HRTx0+endoBx[nn]*tmswf[0][0]+endoBy[nn]*tmswf[0][1]+endoBz[nn]*tmswf[0][2];
 		ay=HRTy0+endoBx[nn]*tmswf[1][0]+endoBy[nn]*tmswf[1][1]+endoBz[nn]*tmswf[1][2];
 		az=HRTz0+endoBx[nn]*tmswf[2][0]+endoBy[nn]*tmswf[2][1]+endoBz[nn]*tmswf[2][2];
@@ -3767,7 +3767,7 @@ void BSPcalm(void) {
 		}
 	}
 	for(nn=0;nn<NendoC;nn++) {
-		// measurement location ¼ÆËãÎ»ÖÃ
+		// measurement location è®¡ç®—ä½ç½®
 		ax=HRTx0+endoCx[nn]*tmswf[0][0]+endoCy[nn]*tmswf[0][1]+endoCz[nn]*tmswf[0][2];
 		ay=HRTy0+endoCx[nn]*tmswf[1][0]+endoCy[nn]*tmswf[1][1]+endoCz[nn]*tmswf[1][2];
 		az=HRTz0+endoCx[nn]*tmswf[2][0]+endoCy[nn]*tmswf[2][1]+endoCz[nn]*tmswf[2][2];
@@ -3816,7 +3816,7 @@ void BSPcalm(void) {
 	cout<<"Num of CPU: "<<cpunum<<endl;
 
 	//-------------------- modified by ALF at 2008-8-19 begin -------------------->
-	//add: store the solid angle of epicardial triangle ±£´æĞÄÍâÄ¤¸ÕÌåÈı½ÇĞÎ
+	//add: store the solid angle of epicardial triangle ä¿å­˜å¿ƒå¤–è†œåˆšä½“ä¸‰è§’å½¢
 	vector<float> epicHnn;
 	epicHnn.resize(Nepic*ND3*(NL-2)*2, 0);
 	for(nn=0;nn<Nepic;nn++) {
@@ -3861,7 +3861,7 @@ void BSPcalm(void) {
 		}
 	}
 
-	//---- body surface potential distribution [time(msec)]Ìå±íµÄµçÊÆ·Ö²¼
+	//---- body surface potential distribution [time(msec)]ä½“è¡¨çš„ç”µåŠ¿åˆ†å¸ƒ
 	nsnrt=mBCL;
 	
 	nTimeStep=0;
@@ -3888,12 +3888,12 @@ void BSPcalm(void) {
 		*(countallijk_reduce+i/3)=0;
 	}
 
-	//  isumloops¼ÇÂ¼Ã¿¸öiTimeÑ­»·´ÎÊıµÄ×ÜºÍ
-	//	iloops[3]0ĞĞ: [0,0]´ædipole×ÜÊı,ÆäÓà´ædipoleÊıÁ¿
-	//        1ĞĞ: ¶ÔdipoleÊıÁ¿ÅÅĞò
-	//        2ĞĞ:ÅÅĞòºódipole¶ÔÓ¦µÄiTimeĞòºÅ
-	//  itask[2]0ĞĞ:´æ¸÷MPI½ø³ÌµÄÈÎÎñ·ÖÅäµÄ½ø³ÌºÅ
-	//        1ĞĞ:Ã¿¸ö½ø³Ì·Ö±ğ¸÷×Ô´æ·ÖÅäµ½µÄiTimeºÅ,ÆäÖĞ0ÔªËØ´æ·Öµ½µÄÈÎÎñ¸öÊı
+	//  isumloopsè®°å½•æ¯ä¸ªiTimeå¾ªç¯æ¬¡æ•°çš„æ€»å’Œ
+	//	iloops[3]0è¡Œ: [0,0]å­˜dipoleæ€»æ•°,å…¶ä½™å­˜dipoleæ•°é‡
+	//        1è¡Œ: å¯¹dipoleæ•°é‡æ’åº
+	//        2è¡Œ:æ’åºådipoleå¯¹åº”çš„iTimeåºå·
+	//  itask[2]0è¡Œ:å­˜å„MPIè¿›ç¨‹çš„ä»»åŠ¡åˆ†é…çš„è¿›ç¨‹å·
+	//        1è¡Œ:æ¯ä¸ªè¿›ç¨‹åˆ†åˆ«å„è‡ªå­˜åˆ†é…åˆ°çš„iTimeå·,å…¶ä¸­0å…ƒç´ å­˜åˆ†åˆ°çš„ä»»åŠ¡ä¸ªæ•°
 
 	for(i=0;i<2;i=i+1)
 	{
@@ -3926,14 +3926,14 @@ void BSPcalm(void) {
 
 	printf("mTime:%d iTimebegin:%d  iTimeend:%d\n", mTime, iTimebegin, iTimeend);
 
-#pragma omp parallel for // OpenMP--begin //by sf 090621¼ÆËãÃ¿¸öiTimeµÄdipoleÊıÁ¿
+#pragma omp parallel for // OpenMP--begin //by sf 090621è®¡ç®—æ¯ä¸ªiTimeçš„dipoleæ•°é‡
 	for(i=iTime;i<=mTime;i=i+3)
 	{
 		int tid=omp_get_thread_num(),tnum=omp_get_num_threads();
 		corenum=tnum;
 		*(iloops[0]+i/3)=BSPitmmcount(i);
-		*(iloops[1]+i/3)=*(iloops[0]+i/3);//ÎªÁËºóÃædipoleÅÅĞò
-		//isumdipoles=isumdipoles+*(iloops[0]+i/3);//myid=0¼ÆËãµÄdipoleºÍÆäËû½Úµã²»Ò»Ñù,why?god save me;²éÃûÔ­Òò:¶àÏß³Ì¹²Ïí,ÀÛ¼Ó³ö´í
+		*(iloops[1]+i/3)=*(iloops[0]+i/3);//ä¸ºäº†åé¢dipoleæ’åº
+		//isumdipoles=isumdipoles+*(iloops[0]+i/3);//myid=0è®¡ç®—çš„dipoleå’Œå…¶ä»–èŠ‚ç‚¹ä¸ä¸€æ ·,why?god save me;æŸ¥ååŸå› :å¤šçº¿ç¨‹å…±äº«,ç´¯åŠ å‡ºé”™
 		*(itask[0]+i/3)=i;
 		if (*(iloops[0]+i/3)>0)
 		{
@@ -3959,7 +3959,7 @@ void BSPcalm(void) {
 
 	//ofstream out("E:\\out.txt"); 
 	//iTimebegin=1,iTimeend=mTime/3;
-	//dipoleÅÅĞò *(iloops[1]+0)´æ·ÅÔİ´æÊı¾İ
+	//dipoleæ’åº *(iloops[1]+0)å­˜æ”¾æš‚å­˜æ•°æ®
 	for(loop=1;loop<=iTimeend;loop++)
 	{
 		loopnum=loop;
@@ -3975,49 +3975,49 @@ void BSPcalm(void) {
 		*(iloops[1]+loop)=*(iloops[1]+0);
 		*(iloops[2]+loop)=*(iloops[2]+0);
 
-		//cout<<"dipoleÊıÁ¿:"<<*(iloops[1]+loop)<<", dipole¶ÔÓ¦iTimeºÅ£º"<<*(iloops[2]+loop)<<endl;
-		//cout<<"dipoleÊıÁ¿:"<<*(iloops[1]+loop)<<", dipole¶ÔÓ¦iTimeºÅ£º"<<*(iloops[2]+loop)<<endl;
+		//cout<<"dipoleæ•°é‡:"<<*(iloops[1]+loop)<<", dipoleå¯¹åº”iTimeå·ï¼š"<<*(iloops[2]+loop)<<endl;
+		//cout<<"dipoleæ•°é‡:"<<*(iloops[1]+loop)<<", dipoleå¯¹åº”iTimeå·ï¼š"<<*(iloops[2]+loop)<<endl;
 		//out<<""<<*(iloops[1]+loop)<<","<<endl;
 	};
 	//out.close();
 	
-	//091212--100211 sumdipole=dipole×ÜÊı,dipolep=Æ½¾ùdipoleÊı,dipole0=MPI½ø³Ì0 dipoleÊı,
-	//iteration0=MPI½ø³Ì0 iterationÊı,turn=0,mTimeby0=[1,mTimeby0]--ÆäËû½ø³Ì;(mTimeby0,iTimeEND]--½ø³Ì0,count=1,head=¼ÆÊı
+	//091212--100211 sumdipole=dipoleæ€»æ•°,dipolep=å¹³å‡dipoleæ•°,dipole0=MPIè¿›ç¨‹0 dipoleæ•°,
+	//iteration0=MPIè¿›ç¨‹0 iterationæ•°,turn=0,mTimeby0=[1,mTimeby0]--å…¶ä»–è¿›ç¨‹;(mTimeby0,iTimeEND]--è¿›ç¨‹0,count=1,head=è®¡æ•°
 	int sumdipole=0,dipolep=0,dipole0=0,iteration0=0,turn=0,mTimeby0=0,count=1,head=1;
-	// GPU¡¢CPU¼ÆËãµÄdiploeÊı 
+	// GPUã€CPUè®¡ç®—çš„diploeæ•° 
 	int dipole_gpu = 0, dipole_cpu = 0;
 	int tail,tailbegin,tailend,exi,ldipole,count1; //[1,gpuend) [gpuend,cpuend](cpuend,tail)[tail,*(itask[1]+0)]
 
-	//Ëãdipole×ÜÊı
+	//ç®—dipoleæ€»æ•°
 	for(loop=1;loop<=iTimeend;loop++)
 	{
 		sumdipole=sumdipole+*(iloops[0]+loop);
 	};
 	
-	//Æ½¾ùdipoleÊı
+	//å¹³å‡dipoleæ•°
 	dipolep=sumdipole/cpunum;
 
 	cout<<"dipolep = "<<dipolep<<" sumdiploep = "<<sumdipole<<endl;
 
-	// µ÷ÓÃGPU¼ÆËãµÄÊıÁ¿ºÍµ÷ÓÃCPU¼ÆËãµÄÊıÁ¿
+	// è°ƒç”¨GPUè®¡ç®—çš„æ•°é‡å’Œè°ƒç”¨CPUè®¡ç®—çš„æ•°é‡
 	int gpu_op_num, cpu_op_num;
 	if(cpunum % 2 == 0){
 		cpu_op_num = gpu_op_num = cpunum / 2;
 	}else{
-		// GPU¶à·Öµã
+		// GPUå¤šåˆ†ç‚¹
 		gpu_op_num = cpunum / 2 + 1;
 		cpu_op_num = cpunum / 2;
 	}
 
-	//  isumloops¼ÇÂ¼Ã¿¸öiTimeÑ­»·´ÎÊıµÄ×ÜºÍ
-	//	iloops[3]0ĞĞ: [0,0]´ædipole×ÜÊı,ÆäÓà´ædipoleÊıÁ¿
-	//        1ĞĞ: ¶ÔdipoleÊıÁ¿ÅÅĞò
-	//        2ĞĞ:ÅÅĞòºódipole¶ÔÓ¦µÄiTimeĞòºÅ
-	//  itask[2]0ĞĞ:´æ¸÷MPI½ø³ÌµÄÈÎÎñ·ÖÅäµÄ½ø³ÌºÅ
-	//        1ĞĞ:Ã¿¸ö½ø³Ì·Ö±ğ¸÷×Ô´æ·ÖÅäµ½µÄiTimeºÅ,ÆäÖĞ0ÔªËØ´æ·Öµ½µÄÈÎÎñ¸öÊı
+	//  isumloopsè®°å½•æ¯ä¸ªiTimeå¾ªç¯æ¬¡æ•°çš„æ€»å’Œ
+	//	iloops[3]0è¡Œ: [0,0]å­˜dipoleæ€»æ•°,å…¶ä½™å­˜dipoleæ•°é‡
+	//        1è¡Œ: å¯¹dipoleæ•°é‡æ’åº
+	//        2è¡Œ:æ’åºådipoleå¯¹åº”çš„iTimeåºå·
+	//  itask[2]0è¡Œ:å­˜å„MPIè¿›ç¨‹çš„ä»»åŠ¡åˆ†é…çš„è¿›ç¨‹å·
+	//        1è¡Œ:æ¯ä¸ªè¿›ç¨‹åˆ†åˆ«å„è‡ªå­˜åˆ†é…åˆ°çš„iTimeå·,å…¶ä¸­0å…ƒç´ å­˜åˆ†åˆ°çš„ä»»åŠ¡ä¸ªæ•°
 	/*
 	dipole0=0;
-	for(loop=iTimeend;loop>=1;loop--)//¸ø½ø³Ì0·ÖÅäÎ²²¿ÊıÁ¿<=Æ½¾ùdipoleµÄiteration
+	for(loop=iTimeend;loop>=1;loop--)//ç»™è¿›ç¨‹0åˆ†é…å°¾éƒ¨æ•°é‡<=å¹³å‡dipoleçš„iteration
 	{
 		dipole0=dipole0+*(iloops[1]+loop);
 		if (dipole0 > dipolep) 
@@ -4028,30 +4028,30 @@ void BSPcalm(void) {
 	};
 	*/
 
-	//mTimeby0=loop;//Î´·ÖÅäµÄÈÎÎñ°üº¬mTimeby0  [1,mTimeby0]¸øÆäËû½ø³Ì
+	//mTimeby0=loop;//æœªåˆ†é…çš„ä»»åŠ¡åŒ…å«mTimeby0  [1,mTimeby0]ç»™å…¶ä»–è¿›ç¨‹
 	//mTimeby0=iTimeend;
 
 	int msumdipole=0,mdipolep=0,tdipole=0,predictend=0,gpuend=1,cpuend=iTimeend;
-	//msumdipole=Ã¿¸öMPI½ø³Ì·ÖÅäµ½µÄdipoleÊı,mdipolep=Ã¿¸öÏß³ÌµÄÆ½¾ùdipoleÊı,
-	//gpuspeed=gpu¼ÓËÙ±È,tdipoleÁÙÊ±Öµ,predictend=Ô¤²â¶¯Ì¬µ÷¶ÈÖĞ¼äµã(t0ºÍÆäËûÏß³ÌÏàÓöµã);
-	//[1,gpuend),(cpuend,iTimeend]¾²Ì¬µ÷¶È;[gpuend,cpuend]¶¯Ì¬µ÷¶È,ÊıÁ¿:cpuend-gpuend+1;
+	//msumdipole=æ¯ä¸ªMPIè¿›ç¨‹åˆ†é…åˆ°çš„dipoleæ•°,mdipolep=æ¯ä¸ªçº¿ç¨‹çš„å¹³å‡dipoleæ•°,
+	//gpuspeed=gpuåŠ é€Ÿæ¯”,tdipoleä¸´æ—¶å€¼,predictend=é¢„æµ‹åŠ¨æ€è°ƒåº¦ä¸­é—´ç‚¹(t0å’Œå…¶ä»–çº¿ç¨‹ç›¸é‡ç‚¹);
+	//[1,gpuend),(cpuend,iTimeend]é™æ€è°ƒåº¦;[gpuend,cpuend]åŠ¨æ€è°ƒåº¦,æ•°é‡:cpuend-gpuend+1;
 
-	//	iloops[3]0ĞĞ: [0,0]´ædipole×ÜÊı,ÆäÓà´ædipoleÊıÁ¿
-	//        1ĞĞ: ¶ÔdipoleÊıÁ¿ÅÅĞò
-	//        2ĞĞ:ÅÅĞòºódipole¶ÔÓ¦µÄiTimeĞòºÅ
-	//  itask[2]0ĞĞ:´æ¸÷MPI½ø³ÌµÄÈÎÎñ·ÖÅäµÄ½ø³ÌºÅ
-	//        1ĞĞ:Ã¿¸ö½ø³Ì·Ö±ğ¸÷×Ô´æ·ÖÅäµ½µÄiTimeºÅ,ÆäÖĞ0ÔªËØ´æ·Öµ½µÄÈÎÎñ¸öÊı
-	// mdipolep Oµ½P·Öµ½µÄdiploeÊıÁ¿
+	//	iloops[3]0è¡Œ: [0,0]å­˜dipoleæ€»æ•°,å…¶ä½™å­˜dipoleæ•°é‡
+	//        1è¡Œ: å¯¹dipoleæ•°é‡æ’åº
+	//        2è¡Œ:æ’åºådipoleå¯¹åº”çš„iTimeåºå·
+	//  itask[2]0è¡Œ:å­˜å„MPIè¿›ç¨‹çš„ä»»åŠ¡åˆ†é…çš„è¿›ç¨‹å·
+	//        1è¡Œ:æ¯ä¸ªè¿›ç¨‹åˆ†åˆ«å„è‡ªå­˜åˆ†é…åˆ°çš„iTimeå·,å…¶ä¸­0å…ƒç´ å­˜åˆ†åˆ°çš„ä»»åŠ¡ä¸ªæ•°
+	// mdipolep Oåˆ°Påˆ†åˆ°çš„diploeæ•°é‡
 	mdipolep=msumdipole*gpuspeed/(gpuspeed+corenum-1);
 	for(loop=1;loop<=*(itask[1]+0);loop++)
 	{
-		// tdipoleÏß³ÌÏß³ÌÊıÁ¿
+		// tdipoleçº¿ç¨‹çº¿ç¨‹æ•°é‡
 		tdipole=tdipole+*(iloops[0]+*(itask[1]+loop)/3);
 		if (tdipole>=mdipolep) 
 			break;
 	};
 
-	// predictend¾ÍÊÇÂÛÎÄÖĞµÄP
+	// predictendå°±æ˜¯è®ºæ–‡ä¸­çš„P
 	predictend=loop-1;
 
 	cout<<"iTimeend:"<<iTimeend<<endl;
@@ -4065,16 +4065,16 @@ void BSPcalm(void) {
 	};
 	
 
-	//  isumloops¼ÇÂ¼Ã¿¸öiTimeÑ­»·´ÎÊıµÄ×ÜºÍ
-	//	iloops[3]0ĞĞ: [0,0]´ædipole×ÜÊı,ÆäÓà´ædipoleÊıÁ¿
-	//        1ĞĞ: ¶ÔdipoleÊıÁ¿ÅÅĞò
-	//        2ĞĞ:ÅÅĞòºódipole¶ÔÓ¦µÄiTimeĞòºÅ
-	//  itask[2]0ĞĞ:´æ¸÷MPI½ø³ÌµÄÈÎÎñ·ÖÅäµÄ½ø³ÌºÅ
-	//        1ĞĞ:Ã¿¸ö½ø³Ì·Ö±ğ¸÷×Ô´æ·ÖÅäµ½µÄiTimeºÅ,ÆäÖĞ0ÔªËØ´æ·Öµ½µÄÈÎÎñ¸öÊı
+	//  isumloopsè®°å½•æ¯ä¸ªiTimeå¾ªç¯æ¬¡æ•°çš„æ€»å’Œ
+	//	iloops[3]0è¡Œ: [0,0]å­˜dipoleæ€»æ•°,å…¶ä½™å­˜dipoleæ•°é‡
+	//        1è¡Œ: å¯¹dipoleæ•°é‡æ’åº
+	//        2è¡Œ:æ’åºådipoleå¯¹åº”çš„iTimeåºå·
+	//  itask[2]0è¡Œ:å­˜å„MPIè¿›ç¨‹çš„ä»»åŠ¡åˆ†é…çš„è¿›ç¨‹å·
+	//        1è¡Œ:æ¯ä¸ªè¿›ç¨‹åˆ†åˆ«å„è‡ªå­˜åˆ†é…åˆ°çš„iTimeå·,å…¶ä¸­0å…ƒç´ å­˜åˆ†åˆ°çš„ä»»åŠ¡ä¸ªæ•°
 	//int msumdipole=0,mdipolep=0,tdipole=0,predictend=0,gpuend=1,cpuend=iTimeend;
-	//msumdipole=Ã¿¸öMPI½ø³Ì·ÖÅäµ½µÄdipoleÊı,mdipolep=Ã¿¸öÏß³ÌµÄÆ½¾ùdipoleÊı,
-	//gpuspeed=gpu¼ÓËÙ±È,tdipoleÁÙÊ±Öµ,predictend=Ô¤²â¶¯Ì¬µ÷¶ÈÖĞ¼äµã(t0ºÍÆäËûÏß³ÌÏàÓöµã);
-	//[1,gpuend),(cpuend,iTimeend]¾²Ì¬µ÷¶È;[gpuend,cpuend]¶¯Ì¬µ÷¶È,ÊıÁ¿:cpuend-gpuend+1;
+	//msumdipole=æ¯ä¸ªMPIè¿›ç¨‹åˆ†é…åˆ°çš„dipoleæ•°,mdipolep=æ¯ä¸ªçº¿ç¨‹çš„å¹³å‡dipoleæ•°,
+	//gpuspeed=gpuåŠ é€Ÿæ¯”,tdipoleä¸´æ—¶å€¼,predictend=é¢„æµ‹åŠ¨æ€è°ƒåº¦ä¸­é—´ç‚¹(t0å’Œå…¶ä»–çº¿ç¨‹ç›¸é‡ç‚¹);
+	//[1,gpuend),(cpuend,iTimeend]é™æ€è°ƒåº¦;[gpuend,cpuend]åŠ¨æ€è°ƒåº¦,æ•°é‡:cpuend-gpuend+1;
 	head=1;
 	for(loop=1;loop<=iTimeend;loop++)
 	{	
@@ -4087,7 +4087,7 @@ void BSPcalm(void) {
 		};
 	};
 
-	//*(itask[1])Ã¿¸ö½ø³Ì±£´æ×Ô¼ºµÄiTime,*(itask[1]+0)±£´æ×îºóÒ»¸öÈÎÎñµÄĞòºÅ,Ò²ÊÇÈÎÎñ¸öÊı
+	//*(itask[1])æ¯ä¸ªè¿›ç¨‹ä¿å­˜è‡ªå·±çš„iTime,*(itask[1]+0)ä¿å­˜æœ€åä¸€ä¸ªä»»åŠ¡çš„åºå·,ä¹Ÿæ˜¯ä»»åŠ¡ä¸ªæ•°
 	*(itask[1]+0)=head-1;
 	cout<<"*(itask[1]+0):"<<*(itask[1]+0)<<endl;
 
@@ -4099,7 +4099,7 @@ void BSPcalm(void) {
 	int gpuLoop, cpuLoop;
 	gpuLoop = 1;
 	cpuLoop = iTimeend;
-#pragma omp parallel shared(gpuLoop, cpuLoop)  //private(iTime) //Ô¤ÅÜ+¶¯Ì¬ //by sf 090828 OpenMP--begin
+#pragma omp parallel shared(gpuLoop, cpuLoop)  //private(iTime) //é¢„è·‘+åŠ¨æ€ //by sf 090828 OpenMP--begin
 	{  
 		int tid=omp_get_thread_num();
 		int tnum=omp_get_num_threads(),myloop,myiTime;
@@ -4119,11 +4119,11 @@ void BSPcalm(void) {
 
 		if (tid==0)
 		{
-			//myloop=1;//myloopÊÇ¼ÆÊıÆ÷,ÊÇÎ»ÖÃ,×ø±ê,²»³Ë3
+			//myloop=1;//myloopæ˜¯è®¡æ•°å™¨,æ˜¯ä½ç½®,åæ ‡,ä¸ä¹˜3
 			//while (myloop < gpuend)
 			while(gpuLoop)
 			{
-				// »ñµÃÅ¼Ö¶×ÓÊıÁ¿
+				// è·å¾—å¶ä¾„å­æ•°é‡
 				//dipolesum=dipolesum+*(iloops[0]+*(itask[1]+myloop)/3);
 				dipolesum=dipolesum+*(iloops[0]+*(itask[1]+gpuLoop)/3);
 				iterationsum++;
@@ -4165,11 +4165,11 @@ void BSPcalm(void) {
 
 	int gwindow=1,cwindow=3;
 	tail=*(itask[1]+0);
-	gpuend=predictend-gwindow;//3ºÍ6¿ÉÒÔ×Ô¼º¶¨
+	gpuend=predictend-gwindow;//3å’Œ6å¯ä»¥è‡ªå·±å®š
 	cpuend=predictend+(corenum-1)*cwindow;
 
 	tdipole=0;
-	// PµãdiploeÊı
+	// Pç‚¹diploeæ•°
 	ldipole=*(iloops[0]+*(itask[1]+predictend)/3)*1.2;
 	for(loop=*(itask[1]+0);loop>=1;loop--)
 	{
@@ -4207,7 +4207,7 @@ void BSPcalm(void) {
 	//}
 	double MPItimebegin=clock(),MPItimeend=0.0;
 
-#pragma omp parallel  //private(iTime) //Ô¤ÅÜ+¶¯Ì¬ //by sf 090828 OpenMP--begin
+#pragma omp parallel  //private(iTime) //é¢„è·‘+åŠ¨æ€ //by sf 090828 OpenMP--begin
 	{  
 		int tid=omp_get_thread_num(),tnum=omp_get_num_threads(),myloop,myiTime;
 		int s=2*tid-1,k=2*(tnum-1);
@@ -4226,10 +4226,10 @@ void BSPcalm(void) {
 
 		if (tid==0)
 		{
-			myloop=1;//myloopÊÇ¼ÆÊıÆ÷,ÊÇÎ»ÖÃ,×ø±ê,²»³Ë3
+			myloop=1;//myloopæ˜¯è®¡æ•°å™¨,æ˜¯ä½ç½®,åæ ‡,ä¸ä¹˜3
 			while (myloop < gpuend)
 			{
-				// »ñµÃÅ¼Ö¶×ÓÊıÁ¿
+				// è·å¾—å¶ä¾„å­æ•°é‡
 				dipolesum=dipolesum+*(iloops[0]+*(itask[1]+myloop)/3);
 				iterationsum++;
 				//printf("gsNO:=%d,itask[1]+0=%d,myid=%d,tid=%d,useGPU=%d,Gnum=%d,iTime=%d,dipole=%d\n",myloop,*(itask[1]+0),myid,tid,useGPU,GPUnum,*(itask[1]+myloop),*(iloops[0]+*(itask[1]+myloop)/3));
@@ -4291,7 +4291,7 @@ void BSPcalm(void) {
 		};
 		//tail
 		//
-		//¶ş¼¶¶¯Ì¬µ÷¶È
+		//äºŒçº§åŠ¨æ€è°ƒåº¦
 		//
 #pragma omp critical
 		{   
@@ -4374,7 +4374,7 @@ void BSPcalm(void) {
 	//};
 
 	/*
-	if (numprocs>1)   //ÎªÁËÈÃ1¸ö½ø³ÌÒ²¿ÉÒÔÖ´ĞĞ
+	if (numprocs>1)   //ä¸ºäº†è®©1ä¸ªè¿›ç¨‹ä¹Ÿå¯ä»¥æ‰§è¡Œ
 	{
 		for(i=0;i<=mTime;i=i+3) 
 		{
@@ -4390,8 +4390,8 @@ void BSPcalm(void) {
 					//printf("++endoPOT[%d]=%f,*(itask[0]+i/3)=%d,*(itask[0]+i)=%d,*(iloops[2]+i)=%d,myid=%d\n",*(iloops[2]+i)/3,*(endoPOT[*(iloops[2]+i)/3]+3),*(itask[0]+i),*(itask[0]+i),*(iloops[2]+i),myid);
 					j=*(iloops[2]+i)/3;
 					int sendID=*(itask[0]+i);
-					//*(iloops[2]+i)/3ÊÇ¶ÔÓ¦µÄiTime/3,endoPOTÊı×é0ÁĞÊı¾İ±»ÀûÓÃÁË,ËùÒÔÓ¦¸ÃÊÇiTime/3-1,VCGsÊÇ°´ÁĞ´æ´¢µÄ0ÁĞÃ»ÓĞÓÃ
-					//POTÊÇ°´ÁĞ´æ´¢µÄ 
+					//*(iloops[2]+i)/3æ˜¯å¯¹åº”çš„iTime/3,endoPOTæ•°ç»„0åˆ—æ•°æ®è¢«åˆ©ç”¨äº†,æ‰€ä»¥åº”è¯¥æ˜¯iTime/3-1,VCGsæ˜¯æŒ‰åˆ—å­˜å‚¨çš„0åˆ—æ²¡æœ‰ç”¨
+					//POTæ˜¯æŒ‰åˆ—å­˜å‚¨çš„ 
 					//printf("j=%d,*(iloops[1]+j)*3=%d,myid=%d\n",j,*(iloops[1]+i)*3,myid);
 
 					*(VCGs[0]+j)=VCGssend[0];*(VCGs[1]+j)=VCGssend[1];*(VCGs[2]+j)=VCGssend[2];
@@ -4748,8 +4748,8 @@ void BSPitmm(short int iTime0, short int **tnd,float *hnn, float *endoHnnA, floa
 	//   fprintf(stdout,"BSPitmm !! tid= %d myid= %d numprocs= %d is processor_name= %s,iTime0= %d\n",tid, myid, numprocs, processor_name,iTime0);
 	//fflush(stdout);
 
-	short int countijk=0;//by sf-090329***countijkÁÙÊ±¼ÇÂ¼ijkĞèÒªĞ´µÄ´ÎÊı,gatherijk[20000],
-	//float gatherdpl[60000];//by sf-090321***countijkÁÙÊ±¼ÇÂ¼ijkĞèÒªĞ´µÄ´ÎÊı
+	short int countijk=0;//by sf-090329***countijkä¸´æ—¶è®°å½•ijkéœ€è¦å†™çš„æ¬¡æ•°,gatherijk[20000],
+	//float gatherdpl[60000];//by sf-090321***countijkä¸´æ—¶è®°å½•ijkéœ€è¦å†™çš„æ¬¡æ•°
 	float *endoHnnA_old,*POTi_old,VCG_old[3];//by sf-090402-4
 	endoHnnA_old=(float *) malloc(2*NENDO*ND3*4);//by sf-090402-4
 	POTi_old=(float *) malloc(NL*4);//by sf-090403-1
@@ -5476,7 +5476,7 @@ float aptcalm(short int i0,short int j0,short int k0,short int iCell0,short int 
 	ACTval=(float)(*(iparm+NPARM*(iCell0-1)+6));
 	istp=(short int)(iTime1/3); // each step has 3 time slots
 
-	//rdXCTm(istp,i0,j0,k0); //by sf-090401 ×Ó³ÌĞòÈ¡Ïû,°Ñ¸Ã´úÂëÌùÈë,±ÜÃâidlttºÍidltcÈ«¾Ö±äÁ¿ÔÚOpenMPÓÉÓÚ¹²Ïí³ö´í// get idltt = istp - ncyc, the current step in current cycle
+	//rdXCTm(istp,i0,j0,k0); //by sf-090401 å­ç¨‹åºå–æ¶ˆ,æŠŠè¯¥ä»£ç è´´å…¥,é¿å…idlttå’Œidltcå…¨å±€å˜é‡åœ¨OpenMPç”±äºå…±äº«å‡ºé”™// get idltt = istp - ncyc, the current step in current cycle
 	//idlttold-->idltt  idltcold-->idltc
 	short int ncyc,n1cyc;
 	short int i00,j00,k00,icc,idlttold,idltcold;
@@ -5976,7 +5976,7 @@ extern "C" short int cudamain(int argc, char** argv)
 	*/
 }
 extern "C" void gpu_transdata(short int g_epicX[Nepic],short int g_epicY[Nepic],short int g_epicZ[Nepic],short int *g_tnd[3],float *g_r[3],float *g_rn[3],short int g_endoBx[NENDO*ND3],short int g_endoBy[NENDO*ND3],short int g_endoBz[NENDO*ND3],short int g_endoCx[NENDO*ND3],short int g_endoCy[NENDO*ND3],short int g_endoCz[NENDO*ND3],float g_tm[3][6])
-{	//´«ËÍÉêÇëÖ»¶ÁÊı¾İ¿Õ¼ä,²¢´«µİ;ÉêÇë¼ÆËãÓÃÊı¾İ¿Õ¼ä
+{	//ä¼ é€ç”³è¯·åªè¯»æ•°æ®ç©ºé—´,å¹¶ä¼ é€’;ç”³è¯·è®¡ç®—ç”¨æ•°æ®ç©ºé—´
 	int i,j;
 	//float *d_r[3],*d_rn[3],*d_tm;
 	float cg_r[NL*3],cg_rn[NL*3];
@@ -6051,7 +6051,7 @@ extern "C" void gpu_transdata(short int g_epicX[Nepic],short int g_epicY[Nepic],
 				( cudaMemcpy(d_endoCx,g_endoCx , sizeof(short int) * NENDO*ND3, cudaMemcpyHostToDevice));
 				( cudaMemcpy(d_endoCy,g_endoCy , sizeof(short int) * NENDO*ND3, cudaMemcpyHostToDevice));
 				( cudaMemcpy(d_endoCz,g_endoCz , sizeof(short int) * NENDO*ND3, cudaMemcpyHostToDevice));
-				//ÉêÇë¼ÆËãÓÃÊı¾İ¿Õ¼ä,ÕâÑùÖ»ÒªÒ»´ÎÉêÇë
+				//ç”³è¯·è®¡ç®—ç”¨æ•°æ®ç©ºé—´,è¿™æ ·åªè¦ä¸€æ¬¡ç”³è¯·
 				( cudaMalloc((void**) &d_epicPOTold, sizeof(float) * Nepic));
 				( cudaMalloc((void**) &d_POTi, sizeof(float) * NL));
 				( cudaMalloc((void**) &d_der, sizeof(float) * NL));
