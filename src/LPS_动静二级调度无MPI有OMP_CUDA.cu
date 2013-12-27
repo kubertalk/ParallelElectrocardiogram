@@ -94,9 +94,9 @@ short int ipstm[3][NI*ND*ND];
 short int vHB[NCYCL][50*ND3];
 short int  excited=0;
 
-CString dataPath="E:\\chuan100\\";
+CString dataPath="E:\\chuan600\\";
 
-const short int useGPU=1,gpuspeed=17;//by sf 090403 useCPU 1--yes 0--no gpuspeed 1 or 17
+const short int useGPU=1,gpuspeed=25;//by sf 090403 useCPU 1--yes 0--no gpuspeed 1 or 17
 short int GPUnum=1,corenum=0;//by sf 090823 the number of GPU device,allnum按GPUnum,corenum次序存 
 // 线程数量
 short int threadnum=4;//by sf 090403 threadnum<0 auto >0 set number of thread=threadnum
@@ -206,7 +206,7 @@ void main(int argc, char** argv)
 	void rdAPDm(void);
 	void freeXCTm(void);
 
-	fprintf(stdout, "Begin computing. %f\n", clock());
+	//fprintf(stdout, "Begin computing. %f\n", clock());
 
 	for(i=0;i<NK;i++) {
 		mapCell[i] = (char *) malloc(NI*NJ);
@@ -538,7 +538,7 @@ void main(int argc, char** argv)
 		if (useGPU==1) 
 		{			
 			GPUnum=cudamain(argc, argv);		
-			fprintf(stdout,"GPUnum = %d", GPUnum);
+			//fprintf(stdout,"GPUnum = %d", GPUnum);
 		};
 		BSPcalm();
 
@@ -596,7 +596,7 @@ void main(int argc, char** argv)
 		freePOTcs();
 	}
 
-	fprintf(stdout,"Simulation End !\n");
+	//fprintf(stdout,"Simulation End !\n");
 	fflush(stdout);
 	flg_thread=0;
 	flg_display=0;
@@ -4071,6 +4071,7 @@ void BSPcalm(void) {
 	*(itask[1]+0)=head-1;//*(itask[1])每个进程保存自己的iTime,*(itask[1]+0)保存最后一个任务的序号,也是任务个数
 	// mdipolep O到P分到的diploe数量
 	mdipolep=msumdipole*gpuspeed/(gpuspeed+corenum-1);
+
 	for(loop=1;loop<=*(itask[1]+0);loop++)
 	{
 		// tdipole线程线程数量
@@ -4141,6 +4142,7 @@ void BSPcalm(void) {
 
 	if (tid==0)
 	{
+		int start_0 = clock();
 		myloop=1;//myloop是计数器,是位置,坐标,不乘3
 		while (myloop < gpuend)
 		{
@@ -4149,9 +4151,12 @@ void BSPcalm(void) {
 			BSPitmm(*(itask[1]+myloop), tnd, hnn, endoHnnA, endoHnnB, endoHnnC,endoPOT,VCGs,nsnrt, &epicHnn[0], &epicPOT[*(itask[1]+myloop)/3-1][0]);
 			myloop++;
 		};
+		int end_0 = clock();
+		cout<<endl<<"time 0:"<<end_0 - start_0<<"   sum dipole:"<<dipolesum<<endl;
 	}
 	else
 	{
+		int start_0 = clock();
 		myloop=(tail-1)-(tid-1);
 		while (myloop > cpuend)
 		{
@@ -4159,7 +4164,8 @@ void BSPcalm(void) {
 			BSPitmm(*(itask[1]+myloop), tnd, hnn, endoHnnA, endoHnnB, endoHnnC,endoPOT,VCGs,nsnrt, &epicHnn[0], &epicPOT[*(itask[1]+myloop)/3-1][0]);
 			s=k-s;myloop=myloop-s;
 		};
-
+		int end_0 = clock();
+		cout<<endl<<"time "<<tid<<" :"<<end_0 - start_0<<"   sum dipole:"<<dipolesum<<endl;
 	};
 	//fprintf(stdout,"static over,tid=%d,myid=%d,dipolesum=%d,iterationsum=%d\n", tid,myid,dipolesum,iterationsum);
 
@@ -5473,7 +5479,7 @@ bool InitCUDA(void)
 	}
 	cudaSetDevice(i);
 
-	printf("CUDA initialized.\n");
+	//printf("CUDA initialized.\n");
 	return true;
 }
 
@@ -5662,7 +5668,7 @@ extern "C" void gpu_freetransdata()
 //int main(int argc, char** argv)
 extern "C" short int cudamain(int argc, char** argv)
 {//int i;
-	fprintf(stdout, "before \n");
+	//fprintf(stdout, "before \n");
 	fflush(stdout);
 	if(!InitCUDA()) {
 		return 0;
@@ -5673,7 +5679,7 @@ extern "C" short int cudamain(int argc, char** argv)
 	cudaGetDeviceCount(&count);
 	GPUnumber=count; 
 	//hpc(argc, argv);
-	printf("CUDA is OK=%d\n",GPUnumber);
+	//printf("CUDA is OK=%d\n",GPUnumber);
 	return GPUnumber;
 	//for(i=0;i<3;i++) 
 	// { 
